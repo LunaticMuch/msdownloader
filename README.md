@@ -32,7 +32,7 @@ Run the file `msdownloader.py` with the following arguments:
 
 |Argument|Description|
 |---|---|
-|-c|\<path to the YAML file of choiche>|
+|-c|\<path to the YAML file of choice>|
 |-x|to force the conversion from GBX to GBP|
 
 ## Limits
