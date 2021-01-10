@@ -11,7 +11,6 @@ Finally, the script returns a list in the stdin of funds prices following the fo
 P 2021-01-08 GB00B907VX32 214.18 GBX
 P 2021-01-08 GB0006010168 1625.0 GBX
 ```
-
 ## Installation 
 
 Download the script. To install the dependencies run:
@@ -20,13 +19,21 @@ Download the script. To install the dependencies run:
 pip install -r requirements.txt
 ```
 
-Create in the same directiory a file call `securities.yaml` and create a key `funds` with a collection of fund ISIN. An example is provided in the file `securities_example.yaml` and below: 
+Create a config file, in YAML format, in a location at your choice. The file must contain a key `funds` with a list of ISIN. You can check the included `securities_example.yaml` or the specimen below: 
 
 ```yaml
 funds:
    - GB0006010168
    - GB00B907VX32
 ```
+## Usage
+
+Run the file `msdownloader.py` with the following arguments:
+
+|Argument|Description|
+|---|---|
+|-c|\<path to the YAML file of choiche>|
+|-x|to force the conversion from GBX to GBP|
 
 ## Limits
 
@@ -35,8 +42,8 @@ This script has been tested with Python >3.5 only
 
 ## Todo
 
-- [ ] Accept arguments from command lines
-- [ ] Provide conversion for GBX into GBP
+- [X] Accept arguments from command lines
+- [X] Provide conversion for GBX into GBP
 - [ ] Save output directly into a file
 - [ ] Save output into different format (ledger, beancount, etc)
 - [ ] Test for currencies / shares / other type of securities
