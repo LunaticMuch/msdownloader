@@ -30,10 +30,11 @@ funds:
 
 Run the file `msdownloader.py` with the following arguments:
 
-|Argument|Description|
-|---|---|
-|-c|\<path to the YAML file of choice>|
-|-x|to force the conversion from GBX to GBP|
+|Argument|Accept|Description|
+|---|---|---|
+|-c|\<path to the YAML file of choice>|File name (with or without the full path) of the YAML config file containing all the securities|
+|-d|XH7946842KD| The ISIN code for which a full dump is requested. The script returns the whole JSON payload as returned by the API|
+|-x||If specified, it forces the conversion from GBX to GBP|
 
 ## Limits
 
