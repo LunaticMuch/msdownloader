@@ -4,8 +4,9 @@ Morningstar Downloader, aka `msdownloader`, is a small script for downloading se
 
 ## How it works
 
-The script first places a call to [Morningstar](https://www.morningstar.co.uk) public international website to retrieve an authorization token which is dynamic (i.e. it changes with any call and does not last for more few minutes). The token is then used to call the official Morningstar API for prices and retrieve the snapshot for each fund.
-Finally, the script returns a list in the stdin of funds prices following the format requested by hleder with the date equal to the last price date (it is not the date of script execution). Example:
+The script first places a call to [Morningstar](https://www.morningstar.co.uk) public international website to retrieve an authorization token which is dynamic (i.e. it changes with any call and does not last for more few minutes). The token is then used to call the official Morningstar API for prices and retrieve securitires' prices.
+Finally, the script returns a list in the stdin of funds prices following the format requested by hleder with the date equal to the last price date (it is not the date of script execution). 
+Example:
 
 ```bash
 P 2021-01-08 GB00B907VX32 214.18 GBX
@@ -25,7 +26,15 @@ Create a config file, in YAML format, in a location at your choice. The file mus
 funds:
    - GB0006010168
    - GB00B907VX32
+shares:
+  - US0258161092
+  - IT0003497168
 ```
+
+## Compatibility
+Morningstar provides a wide range of a financial instruments. Most of tests are realized on international markets (EMEA and APAC) The script has been found compabile with:
+- **funds**: Open Funds, Closed Funds, ETF
+- **shares**: stocks traded on most markets
 ## Usage
 
 Run the file `msdownloader.py` with the following arguments:
@@ -35,7 +44,9 @@ Run the file `msdownloader.py` with the following arguments:
 |-c|\<path to the YAML file of choice>|File name (with or without the full path) of the YAML config file containing all the securities|
 |-d|XH7946842KD| The ISIN code for which a full dump is requested. The script returns the whole JSON payload as returned by the API|
 |-x||If specified, it forces the conversion from GBX to GBP|
-
+|-b||Return the beancount format instead of Ledger (Default)|
+|-o|output.txt|Save the output to a file instead of using the console|
+|-w||Force file overwrite instead of append (default)|
 ## Limits
 
 The currenct script is tested only against funds (ETC/ETF works as funds).
@@ -45,11 +56,13 @@ This script has been tested with Python >3.5 only
 
 - [X] Accept arguments from command lines
 - [X] Provide conversion for GBX into GBP
-- [ ] Save output directly into a file
-- [ ] Save output into different format (ledger, beancount, etc)
+- [X] Save output directly into a file
+- [X] Save output into different format (ledger, beancount, etc)
 - [ ] Test for currencies / shares / other type of securities
-- [ ] Make a single call for multiple securities at the same time
+- [X] Make a single call for multiple securities at the same time
 - [ ] Add the failback support to public API endpoint
 - [ ] Improve code quality
-- [ ] Utilize conversion per security
+- [X] Utilize conversion per security
 - [ ] Enable usage of Sedol instead of ISIN
+- [ ] Download currencies
+- [ ] Download Bond information
