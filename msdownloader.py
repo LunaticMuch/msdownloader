@@ -104,17 +104,21 @@ def get_ms_funds_prices(SAL, JWT, funds_list):
     return prices['rows']
 
 
-def get_ms_shares_prices(SAL, JWT, isin_list):
-    filters = ':'.join([str(isin) for isin in isin_list])
+def get_ms_shares_prices(SAL, JWT, shares_list):
+    output_dict =[]
+    for d in shares_list:
+        d.setdefault('universe','E0WWE$$ALL')
+        output_dict.append(d['universe']) 
+    universe_list = '|'.join([str(universe) for universe in pydash.arrays.sorted_uniq(output_dict)])
+    filters_list = ':'.join([str(item['code']) for item in shares_list])
     url = "https://www.us-api.morningstar.com/ecint/v1/screener"
     querystring = {
         'outputType': 'json',
         'version': '1',
         'languageId': 'en-GB',
-        'currencyId': 'BAS',
+        'universeIds': universe_list,
         'securityDataPoints': 'ISIN,ClosePriceDate,ClosePrice,PriceCurrency',
-        'universeIds': 'E0WWE$$ALL',
-        'filters': 'IsPrimary:EQ:True+ISIN:IN:' + filters
+        'filters': 'IsPrimary:EQ:True+ISIN:IN:' + filters_list
     }
     headers = {'x-sal-contenttype': SAL, 'Authorization': 'Bearer '+JWT, 'x-api-requestid': str(uuid.uuid4()),
            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
@@ -206,7 +210,7 @@ else :
             prices=funds_prices
         elif group == 'shares':
             shares_prices=get_ms_shares_prices(auth[0],auth[1],securities['shares'])
-            prices.append(shares_prices)
+            prices.extend(shares_prices)
         else:
             print('No match for ' + group)
 

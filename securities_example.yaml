@@ -7,3 +7,6 @@ funds:
   - code: IE00BMC38736
     universe: ETEXG$XETR
     name: "VanEck Vectors Semiconductor UCITS ETF (EUR)"
+shares:
+  - code: US0258161092
+    name: American Express AXP
