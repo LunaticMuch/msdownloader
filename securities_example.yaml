@@ -1,6 +1,12 @@
 funds:
-  - GB0006010168
-  - GB00B907VX32
+  - code: GB0006010168
+    name: Baillie Gifford Managed Fund B Acc
+  - code: GB0003295010
+    universe: FCGBR$$ALL
+    name: "Baillie Gifford European Growth Trust Plc"
+  - code: IE00BMC38736
+    universe: ETEXG$XETR
+    name: "VanEck Vectors Semiconductor UCITS ETF (EUR)"
 shares:
-  - US0258161092
-  - IT0003497168
+  - code: US0258161092
+    name: American Express AXP

@@ -19,17 +19,35 @@ Download the script. To install the dependencies run:
 ```bash
 pip install -r requirements.txt
 ```
+## Configuration file
 
 Create a config file, in YAML format, in a location at your choice. The file must contain a key `funds` with a list of ISIN. You can check the included `securities_example.yaml` or the specimen below: 
 
 ```yaml
 funds:
-   - GB0006010168
-   - GB00B907VX32
+   - code: GB0006010168
+     name: A fund
+   - code: GB00B907VX32
+     universe: FOGBR$$ALL
+     name: Another fund
 shares:
-  - US0258161092
-  - IT0003497168
+  - code: US0258161092
+  - code: IT0003497168
 ```
+### Code
+The code **must** the ISIN for the security. Unfortunately we cannot accept [WKN](https://en.wikipedia.org/wiki/Wertpapierkennnummer), [VALOR](https://en.wikipedia.org/wiki/Valoren_number), [SEDOL](https://en.wikipedia.org/wiki/SEDOL) or the Morningstar very own identifier. The limitation is in API which cannot accept a list of different type of identifier at the same time. ISIN is definitely the most common.
+
+### Universe
+The **universe** is not mandatory. If not added, the universe will be standard one from the UK website whichnormally includes most of securities. In case your security is listed on a *non-default* market, you might need to add the universe. The easiest way to identify the universe is looking at the URL when you are browsing your security. You can either see it as URL parameter, called `UniverseID` or at the end of a parameter called `SecurityToken`, example:
+```url
+https://tools.morningstar.co.uk/uk/cefreport/default.aspx?SecurityToken=E0GBR00VWL]2]0]FCGBR$$ALL
+```
+
+The universe is the last 10 chars, i.e. **FCGBR$$ALL**. They follow a naming convention like the first five chars identify the type of investment and the country (Closed Fund Great Britain) and then a subset ($$ALL). Finding it should be straightforward, if not file a an issue and report the URL.
+Universes are not normally required, nor accepted now, for shares.
+
+### Name
+The name is reserved for future use. The idea is to print a custom name in the output instead forcing the usage of ISIN which might not be the identifier you use today.
 
 ## Compatibility
 Morningstar provides a wide range of a financial instruments. Most of tests are realized on international markets (EMEA and APAC) The script has been found compabile with:
@@ -43,6 +61,7 @@ Run the file `msdownloader.py` with the following arguments:
 |---|---|---|
 |-c|\<path to the YAML file of choice>|File name (with or without the full path) of the YAML config file containing all the securities|
 |-d|XH7946842KD| The ISIN code for which a full dump is requested. The script returns the whole JSON payload as returned by the API|
+|-l|XH7946842KD| A lookup function similar to the search box on the website. It might produce limited results|
 |-x||If specified, it forces the conversion from GBX to GBP|
 |-b||Return the beancount format instead of Ledger (Default)|
 |-o|output.txt|Save the output to a file instead of using the console|
@@ -63,6 +82,5 @@ This script has been tested with Python >3.5 only
 - [ ] Add the failback support to public API endpoint
 - [ ] Improve code quality
 - [X] Utilize conversion per security
-- [ ] Enable usage of Sedol instead of ISIN
 - [ ] Download currencies
 - [ ] Download Bond information
