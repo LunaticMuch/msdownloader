@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "/Users/stefano/.pyenv/versions/3.8.0/bin/python",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": ["--ignore", "E201,E202,E226,E231,E302,E501"]
+}

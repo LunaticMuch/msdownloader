@@ -5,6 +5,7 @@ Morningstar Downloader, aka `msdownloader`, is a small script for downloading se
 ## How it works
 
 The script first places a call to [Morningstar](https://www.morningstar.co.uk) public international website to retrieve an authorization token which is dynamic (i.e. it changes with any call and does not last for more few minutes). The token is then used to call the official Morningstar API for prices and retrieve securitires' prices.
+For currencies, a different public endpoint is being used. This because Morningstar does not provide and easy way for retrieving currencies. I adopted an easier approach using [Foreign exchange rates API](https://exchangeratesapi.io).
 Finally, the script returns a list in the stdin of funds prices following the format requested by hleder with the date equal to the last price date (it is not the date of script execution). 
 Example:
 
@@ -33,7 +34,11 @@ funds:
 shares:
   - code: US0258161092
   - code: IT0003497168
+currencis:
+  - code: EUR
+    base: GBP
 ```
+
 ### Code
 The code **must** the ISIN for the security. Unfortunately we cannot accept [WKN](https://en.wikipedia.org/wiki/Wertpapierkennnummer), [VALOR](https://en.wikipedia.org/wiki/Valoren_number), [SEDOL](https://en.wikipedia.org/wiki/SEDOL) or the Morningstar very own identifier. The limitation is in API which cannot accept a list of different type of identifier at the same time. ISIN is definitely the most common.
 
@@ -49,10 +54,15 @@ Universes are not normally required, nor accepted now, for shares.
 ### Name
 The name is reserved for future use. The idea is to print a custom name in the output instead forcing the usage of ISIN which might not be the identifier you use today.
 
+### Currencies
+Currencies are not optimized for bundle calls. Each currency requires and accepts a single pair of base and the code. 
+
 ## Compatibility
 Morningstar provides a wide range of a financial instruments. Most of tests are realized on international markets (EMEA and APAC) The script has been found compabile with:
 - **funds**: Open Funds, Closed Funds, ETF
 - **shares**: stocks traded on most markets
+- **currencies**: currency conversions
+
 ## Usage
 
 Run the file `msdownloader.py` with the following arguments:
@@ -66,9 +76,10 @@ Run the file `msdownloader.py` with the following arguments:
 |-b||Return the beancount format instead of Ledger (Default)|
 |-o|output.txt|Save the output to a file instead of using the console|
 |-w||Force file overwrite instead of append (default)|
+
 ## Limits
 
-The currenct script is tested only against funds (ETC/ETF works as funds).
+The currenct script is tested only against funds (ETC/ETF works as funds), Shares and Currencies.
 This script has been tested with Python >3.5 only
 
 ## Todo
@@ -77,10 +88,10 @@ This script has been tested with Python >3.5 only
 - [X] Provide conversion for GBX into GBP
 - [X] Save output directly into a file
 - [X] Save output into different format (ledger, beancount, etc)
-- [ ] Test for currencies / shares / other type of securities
+- [X] Test for currencies / shares / other type of securities
 - [X] Make a single call for multiple securities at the same time
 - [ ] Add the failback support to public API endpoint
-- [ ] Improve code quality
+- [X] Improve code quality
 - [X] Utilize conversion per security
-- [ ] Download currencies
+- [X] Download currencies
 - [ ] Download Bond information
