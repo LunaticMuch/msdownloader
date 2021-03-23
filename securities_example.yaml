@@ -10,3 +10,8 @@ funds:
 shares:
   - code: US0258161092
     name: American Express AXP
+currencies:
+  - code: EUR
+    base: GBP
+  - code: GBP
+    base: CHF
